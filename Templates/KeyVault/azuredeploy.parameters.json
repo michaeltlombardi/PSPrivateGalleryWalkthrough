@@ -1,0 +1,44 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyVaultName": {
+      "value": "PSPG-KeyVault"
+    },
+    "tenantId": {
+        "value": "TenantGUID"
+    },
+    "accessPolicies": {
+        "value": [
+            {
+                "tenantId": "TenantGuid",
+                "objectId": "UserGuid",
+                "permissions": {
+                    "keys": ["all"],
+                    "secrets": ["all"]
+                }
+            },
+            {
+                "tenantId": "TenantGuid",
+                "objectId": "ServicePrincipalGuid",
+                "permissions": {
+                    "keys": ["all"],
+                    "secrets": ["all"]
+                }
+            }
+        ]
+    },
+    "skuName": {
+      "value": "Standard"
+    },
+    "enableVaultForDeployment": {
+      "value": true
+    },
+    "enableVaultForDiskEncryption": {
+      "value": true
+    },
+    "enabledForTemplateDeployment": {
+      "value": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+site_name: PS Private Gallery Walkthrough
+site_author: Mike Lombardi
+theme: psinder
+site_description: "A walkthrough of deploying and configuring a PowerShell Private Gallery to Azure via ARM Templates, DSC Configurations, and Visual Studio Team Services Build."
+repo_url: "https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough"
+copyright: "The PSPrivateGalleryWalkthrough project is licensed under the <a href='https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/blob/master/LICENSE.md'>MIT license</a>"
+
+pages:
+    - About: index.md
+    - Getting Started:
+        - Before We Begin: Getting-Started\Before-We-Begin.md
+    - Step-By-Step:
+        - 1. Adding Your Fork to VSTS: Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
+    - Concepts:
+        - Forking:  Concepts\Forking.md
+
+extra:
+    version: 0.1.0
+    disqus: PSPrivateGalleryWalkthrough
+use_directory_urls: false
