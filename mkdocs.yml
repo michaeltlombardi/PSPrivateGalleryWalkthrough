@@ -12,8 +12,9 @@ pages:
     - Step-By-Step:
         - 1. Adding Your Fork to VSTS: Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
         - 2. Adding Azure to VSTS:     Step-By-Step\2-Adding-Azure-to-VSTS.md
+        - 3. Defining Your VSTS-Build: Step-By-Step\3-Defining-Your-VSTS-Build.md
     - Concepts:
-        - Forking:  Concepts\Forking.md
+        - Build Variables: Concepts\Build-Variables.md
 
 extra:
     version: 0.1.2
