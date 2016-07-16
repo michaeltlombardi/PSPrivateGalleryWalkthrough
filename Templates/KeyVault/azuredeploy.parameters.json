@@ -6,13 +6,13 @@
       "value": "PSPG-KeyVault"
     },
     "tenantId": {
-        "value": "TenantGUID"
+        "value": "TenantGuid"
     },
     "accessPolicies": {
         "value": [
             {
                 "tenantId": "TenantGuid",
-                "objectId": "UserGuid",
+                "objectId": "UserOrGroupGuid",
                 "permissions": {
                     "keys": ["all"],
                     "secrets": ["all"]
