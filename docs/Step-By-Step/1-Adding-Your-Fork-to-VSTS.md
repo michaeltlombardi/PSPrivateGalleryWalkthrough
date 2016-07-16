@@ -38,7 +38,7 @@ Select the Repository tab under the Build definition.
 You should see that it has autofilled the connection, repository, and default branch.
 Change the repository setting to `<yourusername>/PSPrivateGalleryWalkthrough`.
 
-Click the save button.
+Click the save button - name your build something descriptive - 'Deploy-Gallery' for example.
 
 That's it!
 Next, we're going to look at adding an Azure endpoint.

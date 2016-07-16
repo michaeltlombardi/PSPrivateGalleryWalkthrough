@@ -11,6 +11,7 @@ pages:
         - Before We Begin: Getting-Started\Before-We-Begin.md
     - Step-By-Step:
         - 1. Adding Your Fork to VSTS: Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
+        - 2. Adding Azure to VSTS:     Step-By-Step\2-Adding-Azure-to-VSTS.md
     - Concepts:
         - Forking:  Concepts\Forking.md
 
