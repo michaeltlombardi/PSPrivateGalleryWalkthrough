@@ -7,8 +7,7 @@ copyright: "The PSPrivateGalleryWalkthrough project is licensed under the <a hre
 
 pages:
     - About: index.md
-    - Getting Started:
-        - Before We Begin: Getting-Started\Before-We-Begin.md
+    - Getting Started: Getting-Started.md
     - Step-By-Step:
         - 1. Adding Your Fork to VSTS:                       Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
         - 2. Adding Azure to VSTS:                           Step-By-Step\2-Adding-Azure-to-VSTS.md
