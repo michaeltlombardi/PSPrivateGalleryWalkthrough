@@ -1,0 +1,1 @@
+# Private Gallery Configurations
