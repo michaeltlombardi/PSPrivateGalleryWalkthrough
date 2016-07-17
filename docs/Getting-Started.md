@@ -1,8 +1,7 @@
 ---
-Tags: Getting-Started
-      prerequisites
+Tags: prerequisites
 ---
-# Before We Begin
+# Getting Started
 Before we can deploy a PowerShell Private Gallery, we need to nail down a few prerequisites.
 
 ## Prerequisites
