@@ -10,9 +10,11 @@ pages:
     - Getting Started:
         - Before We Begin: Getting-Started\Before-We-Begin.md
     - Step-By-Step:
-        - 1. Adding Your Fork to VSTS: Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
-        - 2. Adding Azure to VSTS:     Step-By-Step\2-Adding-Azure-to-VSTS.md
-        - 3. Defining Your VSTS-Build: Step-By-Step\3-Defining-Your-VSTS-Build.md
+        - 1. Adding Your Fork to VSTS:                       Step-By-Step\1-Adding-Your-Fork-to-VSTS.md
+        - 2. Adding Azure to VSTS:                           Step-By-Step\2-Adding-Azure-to-VSTS.md
+        - 3. Defining Your VSTS-Build:                       Step-By-Step\3-Defining-Your-VSTS-Build.md
+        - 4. Deploying and Registering Your Private Gallery: Step-By-Step\4-Deploying-And-Registering-Your-Private-Gallery.md
+        - 5. Publishing To Your Private Gallery:             Step-By-Step\5-Publishing-To-Your-Private-Gallery.md
     - Concepts:
         - Build Variables:    Concepts\Build-Variables.md
         - The Configurations: Concepts\The-PowerShell-Private-Gallery-Configurations.md
