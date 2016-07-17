@@ -24,7 +24,7 @@ Once you're signed up, you'll need to create a team project - for the rest of th
 The URL for this should look something like `https://youraccountname.visualstudio.com/PSPrivateGallery`.
 
 ## Forking this Repository
-To [fork](../Concepts/Forking.md) this repository, first go to the repository's [page](https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough) on Github.
+To fork this repository, first go to the repository's [page](https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough) on Github.
 Then click the `Fork` button in the top right corner.
 You should now have a fork of the repository in your own account.
 

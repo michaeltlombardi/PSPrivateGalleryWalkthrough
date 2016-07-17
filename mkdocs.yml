@@ -14,7 +14,8 @@ pages:
         - 2. Adding Azure to VSTS:     Step-By-Step\2-Adding-Azure-to-VSTS.md
         - 3. Defining Your VSTS-Build: Step-By-Step\3-Defining-Your-VSTS-Build.md
     - Concepts:
-        - Build Variables: Concepts\Build-Variables.md
+        - Build Variables:    Concepts\Build-Variables.md
+        - The Configurations: Concepts\The-PowerShell-Private-Gallery-Configurations.md
 
 extra:
     version: 0.1.2
