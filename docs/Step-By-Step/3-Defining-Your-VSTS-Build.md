@@ -1,10 +1,10 @@
 ---
-Tags: tutorial
-      step-by-step
-      vsts
-      github
-      build
-      azurerm
+Tags:     tutorial
+          step-by-step
+          vsts
+          github
+          build
+          azurerm
 Comments: true
 ---
 # Creating your Build Defintion

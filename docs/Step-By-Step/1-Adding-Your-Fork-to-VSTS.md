@@ -1,8 +1,8 @@
 ---
-Tags: tutorial
-      step-by-step
-      vsts
-      github
+Tags:     tutorial
+          step-by-step
+          vsts
+          github
 Comments: true
 ---
 # Adding Your Fork to VSTS

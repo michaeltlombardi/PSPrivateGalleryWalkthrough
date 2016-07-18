@@ -1,10 +1,10 @@
 ---
-Tags: tutorial
-      step-by-step
-      vsts
-      build
-      deploy
-      packagemanagement
+Tags:     tutorial
+          step-by-step
+          vsts
+          build
+          deploy
+          packagemanagement
 Comments: true
 ---
 # Deploying and Registering Your Private Gallery

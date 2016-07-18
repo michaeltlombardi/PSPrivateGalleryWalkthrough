@@ -1,7 +1,7 @@
 ---
-Tags: concept
-      vsts
-      build
+Tags:     concept
+          vsts
+          build
 Comments: true
 ---
 # Build Variables

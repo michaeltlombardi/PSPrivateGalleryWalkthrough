@@ -1,5 +1,5 @@
 ---
-Tags: prerequisites
+Tags:     prerequisites
 Comments: true
 ---
 # Getting Started

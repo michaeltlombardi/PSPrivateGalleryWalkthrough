@@ -1,8 +1,8 @@
 ---
-Tags: tutorial
-      step-by-step
-      packagemanagement
-      post-deploy
+Tags:     tutorial
+          step-by-step
+          packagemanagement
+          post-deploy
 Comments: true
 ---
 # Publishing To Your Private Gallery
