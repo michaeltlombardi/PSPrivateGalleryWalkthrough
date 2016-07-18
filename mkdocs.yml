@@ -19,4 +19,4 @@ pages:
         - The Configurations: Concepts\The-PowerShell-Private-Gallery-Configurations.md
 
 extra:
-    version: 0.1.2
+    version: 0.3.0
