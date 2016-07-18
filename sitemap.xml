@@ -3,7 +3,7 @@
 
     
     <url>
-     <loc>None/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -11,7 +11,7 @@
 
     
     <url>
-     <loc>None/Getting-Started/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Getting-Started/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -20,31 +20,31 @@
     
         
     <url>
-     <loc>None/Step-By-Step/1-Adding-Your-Fork-to-VSTS/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Step-By-Step/1-Adding-Your-Fork-to-VSTS/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/Step-By-Step/2-Adding-Azure-to-VSTS/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Step-By-Step/2-Adding-Azure-to-VSTS/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/Step-By-Step/3-Defining-Your-VSTS-Build/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Step-By-Step/3-Defining-Your-VSTS-Build/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/Step-By-Step/4-Deploying-And-Registering-Your-Private-Gallery/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Step-By-Step/4-Deploying-And-Registering-Your-Private-Gallery/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/Step-By-Step/5-Publishing-To-Your-Private-Gallery/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Step-By-Step/5-Publishing-To-Your-Private-Gallery/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -54,13 +54,13 @@
     
         
     <url>
-     <loc>None/Concepts/Build-Variables/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Concepts/Build-Variables/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>None/Concepts/The-PowerShell-Private-Gallery-Configurations/</loc>
+     <loc>https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough/Concepts/The-PowerShell-Private-Gallery-Configurations/</loc>
      <lastmod>2016-07-18</lastmod>
      <changefreq>daily</changefreq>
     </url>
