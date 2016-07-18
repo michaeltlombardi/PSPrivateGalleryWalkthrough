@@ -22,3 +22,4 @@ pages:
 extra:
     version: 0.3.0
     disqus: psprivategallerywalkthrough
+    nowrap: true
