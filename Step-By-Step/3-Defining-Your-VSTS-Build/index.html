@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="author" content="Mike Lombardi">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>3. Defining Your VSTS-Build - PS Private Gallery Walkthrough</title>
+
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/psinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">PS Private Gallery Walkthrough</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">About</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../Getting-Started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Step-By-Step <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../1-Adding-Your-Fork-to-VSTS/">1. Adding Your Fork to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../2-Adding-Azure-to-VSTS/">2. Adding Azure to VSTS</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">3. Defining Your VSTS-Build</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../4-Deploying-And-Registering-Your-Private-Gallery/">4. Deploying and Registering Your Private Gallery</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../5-Publishing-To-Your-Private-Gallery/">5. Publishing To Your Private Gallery</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Concepts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../Concepts/Build-Variables/">Build Variables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../Concepts/The-PowerShell-Private-Gallery-Configurations/">The Configurations</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="../2-Adding-Azure-to-VSTS/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../4-Deploying-And-Registering-Your-Private-Gallery/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3">
+            
+                <div class="tags hidden-print" id="tags">
+                
+                    <span class="label label-info">tutorial</span>
+                
+                    <span class="label label-info">step-by-step</span>
+                
+                    <span class="label label-info">vsts</span>
+                
+                    <span class="label label-info">github</span>
+                
+                    <span class="label label-info">build</span>
+                
+                    <span class="label label-info">azurerm</span>
+                
+                </div>
+            
+            <div class="bs-sidebar hidden-print affix well" role="complementary" id="sideNav">
+    <ul class="nav bs-sidenav">
+    
+        <li class="first-level active"><a href="#creating-your-build-defintion">Creating your Build Defintion</a></li>
+        
+            <li class="second-level"><a href="#add-the-build-variables">Add the Build Variables</a></li>
+            
+        
+            <li class="second-level"><a href="#add-the-resource-group-deployment-task">Add the Resource Group Deployment Task</a></li>
+            
+        
+            <li class="second-level"><a href="#configuring-the-resource-group-deployment-task">Configuring the Resource Group Deployment Task</a></li>
+            
+        
+            <li class="second-level"><a href="#add-the-tasks-for-copying-files-to-the-gallery-vm">Add the Tasks for Copying Files to the Gallery VM</a></li>
+            
+        
+            <li class="second-level"><a href="#configuring-the-first-azure-file-copy-task-pushing-the-modules">Configuring the First Azure File Copy Task: Pushing the Modules</a></li>
+            
+        
+            <li class="second-level"><a href="#configuring-the-second-azure-file-copy-task-pushing-the-installers">Configuring the Second Azure File Copy Task: Pushing the Installers</a></li>
+            
+        
+            <li class="second-level"><a href="#configuring-the-third-azure-file-copy-task-pushing-the-configuration-files">Configuring the Third Azure File Copy Task: Pushing the Configuration Files</a></li>
+            
+        
+            <li class="second-level"><a href="#adding-the-task-to-execute-the-dsc-configurations">Adding the Task to Execute the DSC Configurations</a></li>
+            
+        
+            <li class="second-level"><a href="#configuring-the-remote-powershell-task">Configuring the Remote PowerShell Task</a></li>
+            
+        
+            <li class="second-level"><a href="#conclusion">Conclusion</a></li>
+            
+        
+    
+    </ul>
+</div>
+        </div>
+        <div class="col-md-9" role="main">
+            
+
+<h1 id="creating-your-build-defintion">Creating your Build Defintion</h1>
+<p>Now we're finally to the interesting part - defining our build.
+We're going to set the build up to create the resource group, which will deploy the VM, the network security rules, the network, storage, and DNS entries, as well as apply the Desired State Configurations to the new VM.</p>
+<h2 id="add-the-build-variables">Add the Build Variables</h2>
+<p>Before we add the build tasks, we need to define some useful variables.</p>
+<ol>
+<li>Select the 'Variables' tab of the build definition.</li>
+<li>Select 'Add Variable' and add the following value under the 'Name' column: <code>resourceGroupName</code></li>
+<li>Select the 'Allow at Queue Time' checkbox.</li>
+</ol>
+<p>You're going to add several more variables here, per the table below:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="center">Secret</th>
+<th align="center">Allow at Queue Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">resourceGroupName</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">vmName</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">vmAdminAccount</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">vmAdminPassword</td>
+<td align="center">true</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">galleryAdminPassword</td>
+<td align="center">true</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">galleryUserPassword</td>
+<td align="center">true</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">galleryApiKey</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">galleryEmailAddress</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">galleryName</td>
+<td align="center">false</td>
+<td align="center">true</td>
+</tr>
+</tbody>
+</table>
+<p>You can place any string you like in for the value of <code>resourcegroupName</code>, <code>vmName</code>, and <code>vmAdminAccount</code>; these will, unsurprisingly, define the name of the Azure resource group to be created (and in which the gallery will reside), the name of the virtual machine the gallery will be installed on, and the name of the admin account created on the VM.</p>
+<p>Similarly, you'll want to supply a guid for the GalleryApiKey - this is the API key that members of your organization will use to publish modules to the private gallery.
+You may want to mark this as a secret as well, for security purposes.</p>
+<p>Speaking of secrets, notice that all of the 'Password' variables are marked as <code>Secret</code> - that allows you to safely and securely save the VM Admin's password, the Gallery Admin's password, and the Gallery User's password in the build definition.
+You'll be able to unhide them until you save the build definition - at which point you won't be able to retrieve the secret outside of a build.</p>
+<p>Finally, you'll want to specify an email address for the private gallery - an organizational mailbox or an individual, depending on the scope of your userbase - and a name for your gallery.</p>
+<p>For all of these values we've elected to make them available for overriding at queue time.
+That means we're going to be able to specify any/all of them whenever we run a build.</p>
+<h2 id="add-the-resource-group-deployment-task">Add the Resource Group Deployment Task</h2>
+<p>In your build definition, select the 'Add a Build Step' button.</p>
+<p>This will bring up a menu - select the the 'Deploy' tab, and then the 'Azure Resource Group Deployment' option on that tab.</p>
+<p>Click the 'Close' button to return to the build.</p>
+<p><img alt="Adding the Resource Group Deployment Task" src="../../Static/3-Adding-Resource-Group-Deployment-Task.PNG" title="Selecting the AzureRM Resource Group Deployment task in VSTS" /></p>
+<h2 id="configuring-the-resource-group-deployment-task">Configuring the Resource Group Deployment Task</h2>
+<p>You'll notice, now that you've added the Resource Group Deployment task, that there's more than a few parts of it to configure!
+No worries though, we're going to tackle them one by one.</p>
+<ol>
+<li>Set the <code>Azure Connection Type</code> to 'Azure Resource Manager'</li>
+<li>Select your subscription from the <code>Azure RM Subscription</code> drop-down - it should match your VSTS Service Principal account.</li>
+<li>Ensure the <code>Action</code> is set to 'Create or Update Resource Group'</li>
+<li>Set <code>Resource Group</code> to <code>$(resourceGroupName)</code></li>
+<li>Set <code>Location</code> to wherever you please.
+This demo was tested against the East US region, but should work everywhere.</li>
+<li>Set <code>Template</code> to <code>Templates/azuredeploy.json</code>
+This points to the path for the template so the build knows what to do.</li>
+<li>Set <code>Template Parameters</code> to <code>Templates/azuredeploy.parameters.json</code>
+This has some default parameters for the build - including VM Size.</li>
+<li>Set <code>Override Template Parameters</code> to '-newStorageAccountName $(vmName) -dnsNameForPublicIP $(vmName) -adminUsername $(vmAdminAccount) -adminPassword (ConvertTo-SecureString -String $(vmAdminPassword) -AsPlainText -Force) -vmName $(vmName)'
+<em>Make sure not to include the wrapping quotation marks though!</em></li>
+<li>Ensure <code>Enable Deployment Prerequisites</code> is checked.</li>
+<li>Set <code>Resource Group</code> under the <strong>Output</strong> section to <code>resourceGroup</code>.
+This will allow us to pass the resource group directly over to the final build step when we're running a PowerShell script on the newly created VM.</li>
+</ol>
+<p>Apart from Step 8, most of the steps for configuring the resource deployment are reasonably straight forward.
+In that step, we're overriding the parameters as if we were at a PowerShell prompt - because, when this build task runs, we are!</p>
+<p>So we specify that the Storage Account should be named for the VM it's attached to, as should the DNS name and, of course, the VM itself!
+We give the Admin account a name (specified in the build variables) and then do some work to pass through the password as a secure string.</p>
+<pre><code class="PowerShell">ConvertTo-SecureString -String $(vmAdminPassword) -AsPlainText -Force
+</code></pre>
+
+<p>The secret stored in the build system is <em>not</em> stored as a secure string, just kept safe until deployment.
+So, when we want to pass it in for the VM's admin account password, we need to ensure it gets converted.
+Otherwise, the build will error out! </p>
+<h2 id="add-the-tasks-for-copying-files-to-the-gallery-vm">Add the Tasks for Copying Files to the Gallery VM</h2>
+<p>In the repository are some prerequisite files we need to get onto the VM so the configuration can run.
+We're going to copy a few PowerShell modules for the DSC resources - one for Package Management, one for SQLExpress, one for IIS, and (of course!) the PSGallery DSC resource.</p>
+<p>Then we're going to copy over some installer files these resources will look for - namely, the installers for SQL and an IIS component.</p>
+<p>Finally, we're going to copy over the Configuration files themselves!</p>
+<p>To do this, we're going to add a build step and navigate to the 'Deploy' tab.
+Select the 'Azure File Copy' option, and add it <strong>three</strong> times.
+Click okay to close the menu again.</p>
+<p><img alt="Adding the Azure File Copy Deployment Task" src="../../Static/3-Adding-Azure-File-Copy-Task.PNG" title="Selecting the Azure File Copy Deployment tasks in VSTS" /></p>
+<p>Next, we're going to configure each of these tasks.</p>
+<h2 id="configuring-the-first-azure-file-copy-task-pushing-the-modules">Configuring the First Azure File Copy Task: Pushing the Modules</h2>
+<p>As before, let's tackle the settings one after another:</p>
+<ol>
+<li>Set the <code>Source</code> to <code>Modules</code>.
+This ensures that the task will copy the Modules folder from the repository.</li>
+<li>Set the <code>Azure Connection Type</code> to 'Azure Resource Manager'</li>
+<li>Set the <code>Azure RM Subscription</code> to your Service Principal account from the drop down again.</li>
+<li>Set the <code>Destination Type</code> to 'Azure VMs'</li>
+<li>Set the <code>RM Storage Account</code> to <code>$(vmName)</code></li>
+<li>Set the <code>Resource Group</code> to <code>$(resourceGroupName)</code></li>
+<li>Ensure <code>Select Machines By</code> is set to 'Machine Names'.</li>
+<li>Set the <code>Admin Login</code> to <code>$(vmAdminAccount)</code></li>
+<li>Set the <code>Password</code> to <code>$(vmAdminPassword)</code></li>
+<li>Set the <code>Destination</code> to <code>C:\Program Files\WindowsPowerShell\Modules</code></li>
+<li>Ensure that <code>Enable Copy Prerequisites</code> and <code>Test Certificate</code> are both checked.
+This ensures that you're able to copy the files over to the VM.
+Without these settings, the copy will fail - the build server can't copy over HTTP because the newly created Gallery VM isn't in the build server's <a href="http://www.computerperformance.co.uk/powershell/powershell_wsman.htm">Trusted Hosts List</a>.</li>
+</ol>
+<p>That's it. 
+Now, to configure the next two tasks...</p>
+<h2 id="configuring-the-second-azure-file-copy-task-pushing-the-installers">Configuring the Second Azure File Copy Task: Pushing the Installers</h2>
+<p>The settings for this task are nearly the same as for the first Azure file copy task.
+However, this time we're copying the installers over so steps 1 and 10 (setting the source and destination, respectively) are different.</p>
+<p>We've included the full step list again so you don't have to reference back and forth.</p>
+<ol>
+<li>Set the <code>Source</code> to <code>Installers</code>.</li>
+<li>Set the <code>Azure Connection Type</code> to 'Azure Resource Manager'</li>
+<li>Set the <code>Azure RM Subscription</code> to your Service Principal account from the drop down again.</li>
+<li>Set the <code>Destination Type</code> to 'Azure VMs'</li>
+<li>Set the <code>RM Storage Account</code> to <code>$(vmName)</code></li>
+<li>Set the <code>Resource Group</code> to <code>$(resourceGroupName)</code></li>
+<li>Ensure <code>Select Machines By</code> is set to 'Machine Names'.</li>
+<li>Set the <code>Admin Login</code> to <code>$(vmAdminAccount)</code></li>
+<li>Set the <code>Password</code> to <code>$(vmAdminPassword)</code></li>
+<li>Set the <code>Destination</code> to <code>C:\PSPG\Installers</code></li>
+<li>Ensure that <code>Enable Copy Prerequisites</code> and <code>Test Certificate</code> are both checked.</li>
+</ol>
+<h2 id="configuring-the-third-azure-file-copy-task-pushing-the-configuration-files">Configuring the Third Azure File Copy Task: Pushing the Configuration Files</h2>
+<p>Last file copy task to configure!
+This time, we're copying over the Configuration Environment data files, the scripts which define and execute the configurations, and a controller script (<code>Execute-ConfigurationScripts.ps1</code>) which we'll be calling in the final step of this build definition.</p>
+<ol>
+<li>Set the <code>Source</code> to <code>Configuration</code>.</li>
+<li>Set the <code>Azure Connection Type</code> to 'Azure Resource Manager'</li>
+<li>Set the <code>Azure RM Subscription</code> to your Service Principal account from the drop down again.</li>
+<li>Set the <code>Destination Type</code> to 'Azure VMs'</li>
+<li>Set the <code>RM Storage Account</code> to <code>$(vmName)</code></li>
+<li>Set the <code>Resource Group</code> to <code>$(resourceGroupName)</code></li>
+<li>Ensure <code>Select Machines By</code> is set to 'Machine Names'.</li>
+<li>Set the <code>Admin Login</code> to <code>$(vmAdminAccount)</code></li>
+<li>Set the <code>Password</code> to <code>$(vmAdminPassword)</code></li>
+<li>Set the <code>Destination</code> to <code>C:\PSPG\Configuration</code></li>
+<li>Ensure that <code>Enable Copy Prerequisites</code> and <code>Test Certificate</code> are both checked.</li>
+</ol>
+<p>Now we can move on to the final build task!</p>
+<h2 id="adding-the-task-to-execute-the-dsc-configurations">Adding the Task to Execute the DSC Configurations</h2>
+<p>As before, add a build step and navigate to the 'Deploy' tab.
+Select 'PowerShell on Target Machines', add one task, and hit okay to close the menu.</p>
+<p><img alt="Adding the PowerShell on Target Machines Deployment Task" src="../../Static/3-Adding-Remote-PowerShell-Task.PNG" title="Selecting the PowerShell on Target Machines Deployment task in VSTS" /></p>
+<p>This is the final task in the build definition - it will run the <code>Execute-ConfigurationScripts.ps1</code> script file on our newly deployed VM.
+If you're interested in exactly what it's doing, take a look at <a href="../../Concepts/The-PowerShell-Private-Gallery-Configurations/"><em>The PowerShell Private Gallery Configurations</em></a> in the <strong>Concepts</strong> section.</p>
+<p>For now, we're just going to focus on the parameters being passed through for the task's configuration.</p>
+<h2 id="configuring-the-remote-powershell-task">Configuring the Remote PowerShell Task</h2>
+<p>One last list of items to set for the configuration and we're ready to deploy!
+Once again, you'll want to make sure the settings for this task are correct:</p>
+<ol>
+<li>Set the <code>Machines</code> to <code>$(resourceGroup)</code>.
+This is the output of deploying the resource group earlier.</li>
+<li>Set the <code>Admin Login</code> to <code>$(vmAdminAccount)</code></li>
+<li>Set the <code>Password</code> to <code>$(vmAdminPassword)</code></li>
+<li>Ensure the <code>Protocol</code> is set to 'HTTPS' and that the <code>Test Certificate</code> option <strong>is</strong> ehecked.
+Again, the build server won't be able to reach the new VM over HTTP because it won't be added to the build server's Trusted Hosts list.</li>
+<li>Set the <code>PowerShell Script</code> to <code>C:\PSPG\Configuration\Execute-ConfigurationScripts.ps1</code>.
+This is why we needed to copy the configuration folder over - we can't run a script that doesn't exist on the target!</li>
+<li>Set the <code>Script Arguments</code> to '-AdminPass $(galleryAdminPassword) -UserPass $(galleryUserPassword) -ApiKey $(galleryApiKey) -EmailAddress $(galleryEmailAddress)'
+<em>Again, make sure not to include the wrapping quotation marks!</em></li>
+</ol>
+<p>Once more, the complexity is found when we're setting the parameters.
+In this case, we're passing through the gallery admin and user passwords we specified back up in the variables section, an ApiKey (used to publish modules to our new repository), and an email address for the gallery admin.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This was a reasonably long step in the process, but it's the most important one.
+Now that we've defined the build, we can actually run it and deploy a private gallery to Azure!</p>
+<p>More importantly, if we ever change our minds about any of the variables we used back up in the first section, all we need to do is edit them and redeploy.</p>
+<p>Next, we're going to register the repository on our local machine! </p>
+            
+                
+            
+        </div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        
+            
+            <p><a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/tree/master/docs/Step-By-Step\3-Defining-Your-VSTS-Build.md" class="icon icon-github"> Edit this page on GitHub</a></p>
+            
+        
+        <p>
+        <small>The PSPrivateGalleryWalkthrough project is licensed under the <a href='https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/blob/master/LICENSE.md'>MIT license</a><br></small>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../js/tags.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '../..';
+    </script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+    <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

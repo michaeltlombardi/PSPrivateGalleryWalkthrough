@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="author" content="Mike Lombardi">  
+    <link rel="shortcut icon" href="../../img/favicon.ico">
+
+    <title>4. Deploying and Registering Your Private Gallery - PS Private Gallery Walkthrough</title>
+
+    <link href="../../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../../css/base.css" rel="stylesheet">
+    <link href="../../css/psinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="../..">PS Private Gallery Walkthrough</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../..">About</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../../Getting-Started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Step-By-Step <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../1-Adding-Your-Fork-to-VSTS/">1. Adding Your Fork to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../2-Adding-Azure-to-VSTS/">2. Adding Azure to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../3-Defining-Your-VSTS-Build/">3. Defining Your VSTS-Build</a>
+</li>
+
+                        
+                            
+<li class="active">
+    <a href="./">4. Deploying and Registering Your Private Gallery</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../5-Publishing-To-Your-Private-Gallery/">5. Publishing To Your Private Gallery</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Concepts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../../Concepts/Build-Variables/">Build Variables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../../Concepts/The-PowerShell-Private-Gallery-Configurations/">The Configurations</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="../3-Defining-Your-VSTS-Build/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../5-Publishing-To-Your-Private-Gallery/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3">
+            
+            <div class="bs-sidebar hidden-print affix well" role="complementary" id="sideNav">
+    <ul class="nav bs-sidenav">
+    
+        <li class="first-level active"><a href="#deploying-and-registering-your-private-gallery">Deploying and Registering Your Private Gallery</a></li>
+        
+            <li class="second-level"><a href="#deploying-your-private-gallery">Deploying Your Private Gallery</a></li>
+            
+        
+            <li class="second-level"><a href="#interlude-on-infrastucture-as-code">Interlude: On Infrastucture as Code</a></li>
+            
+        
+            <li class="second-level"><a href="#registering-your-private-gallery">Registering Your Private Gallery</a></li>
+            
+        
+    
+    </ul>
+</div>
+        </div>
+        <div class="col-md-9" role="main">
+            
+
+<h1 id="deploying-and-registering-your-private-gallery">Deploying and Registering Your Private Gallery</h1>
+<h2 id="deploying-your-private-gallery">Deploying Your Private Gallery</h2>
+<p>So, assuming everything went well in <a href="../3-Defining-Your-VSTS-Build/">Step 3</a>, you're ready to deploy your private gallery instance to Azure.</p>
+<p>You can do that from your build definition - once you've verified the task definitions and variables, save the Build Definition <em>if you are using a dedicated Build Server</em>. If you're using the Hosted Build Servers, you'll have to split up your build - unfortunately, the build will bust the 30m agent maximum!</p>
+<p>If you're using the hosted build agent, disable the last step (the PowerShell on a Remote Machine step, which executes the configuration).</p>
+<p>Then click the 'Queue Build' button and VSTS will start looking for a hosted build agent to use for your build!</p>
+<p>Be prepared - the deployment itself can take a long time - in my tests, close to 30 minutes - to complete.</p>
+<p>If you're using the Hosted Build Agent, after the build completes you'll want to edit your build definition - disable the file copies (since the files have already been copied over) and enable the PowerShell step.
+Then run the build a second time.</p>
+<p><strong>Note:</strong> Even though you run the build a second time, the ARM Template deployment is idempotent - because no changes were made to the template, the first build step will just guarantee that the resources are in the expected state.
+Then it will move on to applying the configuration.
+This may also take close to thirty minuts.</p>
+<p>You've probably noticed that this build (or builds, if you've had to split it in half due to the free hosted agent limitations) takes a while.
+However, in that block of time the build is:</p>
+<ol>
+<li>Deploying a Virtual Machine, configuring a virtual network, registering a DNS entry, setting up firewall rules, and configuring storage.</li>
+<li>Copying modules, installers, and configuration documents to the new VM.</li>
+<li>Configuring the VM - including installing and configuring both IIS and SQLExpress, configuring and standing up a website, and downloading and registering packages for the repository.</li>
+</ol>
+<h2 id="interlude-on-infrastucture-as-code">Interlude: On Infrastucture as Code</h2>
+<p>While you're waiting for the deployment to finish, here's a few questions for you:</p>
+<ul>
+<li>How long would it take you to do those tasks by hand?</li>
+<li>How confident could you be that the process was exactly what you were expecting?</li>
+<li>How easily could you make a change to one step of the process and be assured that your node can be successfully redeployed?</li>
+<li>What conversations might you have with your team or organization about the settings and configuration of the gallery?</li>
+<li>How can you be assured that those settings and configurations are implemented? Documented?</li>
+<li>How repeatable would a manual version of this process be?</li>
+<li>How quickly could you test and modify a manual process for use in another domain or environment?</li>
+</ul>
+<p>There are no trick questions here, no clever answers.
+The 'simple' truth is this: infrastructure as code is a way to make our deployments safer, more consistent, easier to modify, and easier for people in our team and across other teams to review, improve, and learn about the systems being deployed.
+There's no magic involved.</p>
+<p>Hopefully, your build should be just about finished now!</p>
+<h2 id="registering-your-private-gallery">Registering Your Private Gallery</h2>
+<p>Assuming your build didn't error out, you should now have a working Private Gallery!
+Want to prove it?
+Open a PowerShell prompt on your local machine.</p>
+<pre><code class="powershell">Register-PSRepository -Name '&lt;galleryName&gt;' -SourceLocation 'http://&lt;vmName&gt;.&lt;location&gt;.cloudapp.azure.com/api/v2' -InstallationPolicy Trusted
+</code></pre>
+
+<p>Make sure to replace <code>&lt;galleryName&gt;</code> and <code>&lt;vmName&gt;</code> with whatever you used for that variable in your build definition (without the angle brackets) and <code>&lt;location&gt;</code> with whichever Azure region you deployed your private gallery to.
+For example, if I deployed a private gallery called <code>stlpsug</code> on a VM called <code>pspg01</code> in the <code>East US</code> region:</p>
+<pre><code class="powershell">Register-PSRepository -Name stlpsug -SourceLocation http://pspg01.eastus.cloudapp.azure.com/api/v2 -InstallationPolicy Trusted
+</code></pre>
+
+<p>Then, search to see what packages are available on the remote repository (replace stlpsug with the name of your own private gallery):</p>
+<pre><code class="powershell">Find-Package -Repostory stlpsug
+</code></pre>
+
+<p>You should get back output like this:</p>
+<pre><code>Version    Name                                Type       Repository           Description
+-------    ----                                ----       ----------           -----------
+0.6.1.2... posh-git                            Module     stlpsug              A PowerShell environment for Git
+3.4.0      Pester                              Module     stlpsug              Pester provides a framework for runni...
+1.6.0      PSScriptAnalyzer                    Module     stlpsug              PSScriptAnalyzer provides script anal...
+0.1.15     PSDeploy                            Module     stlpsug              Module to simplify PowerShell based d...
+4.6.0      psake                               Module     stlpsug              psake is a build automation tool writ...
+0.6.1      platyPS                             Module     stlpsug              Generate PowerShell External Help fil...
+1.2        PSReadline                          Module     stlpsug              Great command line editing in the Pow...
+</code></pre>
+
+<p>That's it!
+We've deployed <em>and</em> registered our very own private PowerShell repository!</p>
+            
+                
+            
+        </div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        
+            
+            <p><a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/tree/master/docs/Step-By-Step\4-Deploying-And-Registering-Your-Private-Gallery.md" class="icon icon-github"> Edit this page on GitHub</a></p>
+            
+        
+        <p>
+        <small>The PSPrivateGalleryWalkthrough project is licensed under the <a href='https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/blob/master/LICENSE.md'>MIT license</a><br></small>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="../../js/jquery-1.10.2.min.js"></script>
+    <script src="../../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../../js/tags.js"></script>
+    <script src="../../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '../..';
+    </script>
+    <script data-main="../../mkdocs/js/search.js" src="../../mkdocs/js/require.js"></script>
+    <script src="../../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

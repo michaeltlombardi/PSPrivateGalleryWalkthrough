@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <meta name="author" content="Mike Lombardi">  
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    <title>Getting Started - PS Private Gallery Walkthrough</title>
+
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/base.css" rel="stylesheet">
+    <link href="../css/psinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href="..">PS Private Gallery Walkthrough</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="..">About</a>
+                    </li>
+                
+                
+                
+                    <li class="active">
+                        <a href="./">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Step-By-Step <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../Step-By-Step/1-Adding-Your-Fork-to-VSTS/">1. Adding Your Fork to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Step-By-Step/2-Adding-Azure-to-VSTS/">2. Adding Azure to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Step-By-Step/3-Defining-Your-VSTS-Build/">3. Defining Your VSTS-Build</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Step-By-Step/4-Deploying-And-Registering-Your-Private-Gallery/">4. Deploying and Registering Your Private Gallery</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Step-By-Step/5-Publishing-To-Your-Private-Gallery/">5. Publishing To Your Private Gallery</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Concepts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="../Concepts/Build-Variables/">Build Variables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="../Concepts/The-PowerShell-Private-Gallery-Configurations/">The Configurations</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li >
+                        <a rel="next" href="..">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../Step-By-Step/1-Adding-Your-Fork-to-VSTS/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3">
+            
+                <div class="tags hidden-print" id="tags">
+                
+                    <span class="label label-info">prerequisites</span>
+                
+                </div>
+            
+            <div class="bs-sidebar hidden-print affix well" role="complementary" id="sideNav">
+    <ul class="nav bs-sidenav">
+    
+        <li class="first-level active"><a href="#getting-started">Getting Started</a></li>
+        
+            <li class="second-level"><a href="#prerequisites">Prerequisites</a></li>
+            
+        
+            <li class="second-level"><a href="#getting-an-azure-account">Getting an Azure Account</a></li>
+            
+        
+            <li class="second-level"><a href="#setting-up-visual-studio-team-services">Setting up Visual Studio Team Services</a></li>
+            
+        
+            <li class="second-level"><a href="#forking-this-repository">Forking this Repository</a></li>
+            
+        
+            <li class="second-level"><a href="#powershell-modules">PowerShell Modules</a></li>
+            
+        
+            <li class="second-level"><a href="#create-a-visual-studio-team-services-service-principal-account">Create a Visual Studio Team Services Service Principal Account</a></li>
+            
+        
+            <li class="second-level"><a href="#finally">Finally!</a></li>
+            
+        
+    
+    </ul>
+</div>
+        </div>
+        <div class="col-md-9" role="main">
+            
+
+<h1 id="getting-started">Getting Started</h1>
+<p>Before we can deploy a PowerShell Private Gallery, we need to nail down a few prerequisites.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ol>
+<li>An Azure account</li>
+<li>A Visual Studio Team Services account</li>
+<li>A fork of this repository</li>
+</ol>
+<h2 id="getting-an-azure-account">Getting an Azure Account</h2>
+<p>If you don't already have a Microsoft Azure account, you can sign up for one <a href="https://azure.microsoft.com/en-us/free/">here</a>.
+This option will sign you up for an Azure Account with a $200 credit - that credit expires at the end of your first month though, so be aware of this!</p>
+<p>If you're a student, you may want to use your <a href="https://www.dreamspark.com/Product/Product.aspx?productid=99">DreamSpark account</a> with Azure.</p>
+<p>If you're an MSDN subscriber, you <em>definitely</em> want to hook up your MSDN account to Azure - you get <a href="https://azure.microsoft.com/en-us/pricing/member-offers/msdn-benefits-details/">up to $150 per month in credits</a>!</p>
+<h2 id="setting-up-visual-studio-team-services">Setting up Visual Studio Team Services</h2>
+<p>The first thing to do is to <a href="https://www.visualstudio.com/en-us/docs/setup-admin/team-services/sign-up-for-visual-studio-team-services">sign up</a>.
+Once you're signed up, you'll need to create a team project - for the rest of the Walkthrough we're going to assume that you've called the project 'PSPrivateGallery'.
+The URL for this should look something like <code>https://youraccountname.visualstudio.com/PSPrivateGallery</code>.</p>
+<h2 id="forking-this-repository">Forking this Repository</h2>
+<p>To fork this repository, first go to the repository's <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough">page</a> on Github.
+Then click the <code>Fork</code> button in the top right corner.
+You should now have a fork of the repository in your own account.</p>
+<h2 id="powershell-modules">PowerShell Modules</h2>
+<p>You'll need the AzureRM PowerShell modules installed to create your VSTS Service Principal.
+If you have PowerShell v5, this is relatively straightforward:</p>
+<pre><code class="powershell">Find-Module AzureRM | Install-Module -Force -Scope CurrentUser
+</code></pre>
+
+<p><strong>Note:</strong> If you'd like to install the module for everyone on the computer, you can drop <code>-Scope CurentUser</code> - however, you'll need to run the command with administrator rights.</p>
+<h2 id="create-a-visual-studio-team-services-service-principal-account">Create a Visual Studio Team Services Service Principal Account</h2>
+<p>In order to connect our Azure account to VSTS, we'll need to generate a Service Principal Account.
+The easiest way is to follow the directions <a href="https://blogs.msdn.microsoft.com/visualstudioalm/2015/10/04/automating-azure-resource-group-deployment-using-a-service-principal-in-visual-studio-online-buildrelease-management/">here</a> from the MSDN Blog.
+All we've done here is to pull the script into our script folder (Add-AzureServicePrincipal.ps1).</p>
+<p>The short version, if you just want to get started, is to run that script on your local machine.
+You'll need to know your Azure Subscription name and specify a password for the Service Principal.</p>
+<p>For example (assuming you've opened a powershell prompt at the root of your local clone of this repository:</p>
+<pre><code class="powershell">Push-Location .\Scripts
+.\Add-AzureServicePrincipal.ps1 -subscriptionName 'MySubName' -Password 'SomeS35ure Password, hahahah! :D'
+Pop-Location
+</code></pre>
+
+<p>You should get output like the block below; Save it in a notepad! You're going to need it for Step Two!</p>
+<pre><code>***************************************************************************
+Connection Name: MySubName(SPN)
+Subscription Id: dbcdf31c-a2fb-4e27-a0ec-0af48fdb03ac
+Subscription Name: MySubName
+Service Principal Id: 1670693b-0c9e-4782-ac17-4e2c27064995
+Service Principal key: &lt;Password that you typed in&gt;
+Tenant Id: 8494debb-26c9-47c3-85bf-35ee23d3ae01
+***************************************************************************
+</code></pre>
+
+<p>Save that output! We're going to use it in </p>
+<h2 id="finally">Finally!</h2>
+<p>That's it, you've got all the prerequisites for this walkthrough now.
+Next up: adding your fork to VSTS. </p>
+            
+                
+            
+        </div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        
+            
+            <p><a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/tree/master/docs/Getting-Started.md" class="icon icon-github"> Edit this page on GitHub</a></p>
+            
+        
+        <p>
+        <small>The PSPrivateGalleryWalkthrough project is licensed under the <a href='https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/blob/master/LICENSE.md'>MIT license</a><br></small>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+    <script src="../js/tags.js"></script>
+    <script src="../js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '..';
+    </script>
+    <script data-main="../mkdocs/js/search.js" src="../mkdocs/js/require.js"></script>
+    <script src="../js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>

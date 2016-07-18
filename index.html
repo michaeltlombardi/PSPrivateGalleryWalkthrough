@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A walkthrough of deploying and configuring a PowerShell Private Gallery to Azure via ARM Templates, DSC Configurations, and Visual Studio Team Services Build."> 
+    <meta name="author" content="Mike Lombardi">  
+    <link rel="shortcut icon" href="./img/favicon.ico">
+
+    <title>PS Private Gallery Walkthrough</title>
+
+    <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/font-hack/2.018/css/hack.min.css">
+    <link href='//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="./css/base.css" rel="stylesheet">
+    <link href="./css/psinder.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/highlight.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
+    <script>
+    WebFont.load({
+        google: {
+            families: ['Open Sans', 'PT Sans']
+        }
+    });
+    </script>
+
+    
+</head>
+
+<body class="homepage" >
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+            <a class="navbar-brand" href=".">PS Private Gallery Walkthrough</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li class="active">
+                        <a href=".">About</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="Getting-Started/">Getting Started</a>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Step-By-Step <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="Step-By-Step/1-Adding-Your-Fork-to-VSTS/">1. Adding Your Fork to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="Step-By-Step/2-Adding-Azure-to-VSTS/">2. Adding Azure to VSTS</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="Step-By-Step/3-Defining-Your-VSTS-Build/">3. Defining Your VSTS-Build</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="Step-By-Step/4-Deploying-And-Registering-Your-Private-Gallery/">4. Deploying and Registering Your Private Gallery</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="Step-By-Step/5-Publishing-To-Your-Private-Gallery/">5. Publishing To Your Private Gallery</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Concepts <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                        
+                            
+<li >
+    <a href="Concepts/Build-Variables/">Build Variables</a>
+</li>
+
+                        
+                            
+<li >
+    <a href="Concepts/The-PowerShell-Private-Gallery-Configurations/">The Configurations</a>
+</li>
+
+                        
+                        </ul>
+                    </li>
+                
+                
+                </ul>
+            
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                
+                    <li class="disabled">
+                        <a rel="next" >
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="Getting-Started/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough">
+                            
+                                <i class="fa fa-github"></i>
+                            
+                            GitHub
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        <div class="col-md-3">
+            
+            <div class="bs-sidebar hidden-print affix well" role="complementary" id="sideNav">
+    <ul class="nav bs-sidenav">
+    
+        <li class="first-level active"><a href="#about">About</a></li>
+        
+            <li class="second-level"><a href="#getting-started">Getting Started</a></li>
+            
+        
+            <li class="second-level"><a href="#step-by-step">Step-By-Step</a></li>
+            
+        
+            <li class="second-level"><a href="#concepts">Concepts</a></li>
+            
+        
+            <li class="second-level"><a href="#this-repository">This Repository</a></li>
+            
+        
+    
+    </ul>
+</div>
+        </div>
+        <div class="col-md-9" role="main">
+            
+
+<h1 id="about">About</h1>
+<p>This site (and the repository it's generated from) exists to help demonstrate and walk you through deploying a PowerShell Private Gallery to Azure via Azure Resource Manager templates, PowerShell Desired State Configurations, and some version controlled scripts all executed via Visual Studio Services' builds.</p>
+<p>The project is broken up into a couple of pieces:</p>
+<ol>
+<li>Getting Started</li>
+<li>Step-By-Step</li>
+<li>Concepts</li>
+</ol>
+<h2 id="getting-started">Getting Started</h2>
+<p>The <em>Getting Started</em> section exists to help you get the prerequisite tasks accomplished and help you to get ready for the <em>Step-By-Step</em> section.
+In it you'll find information on forking this repository, setting up VSTS, and preparing your Azure subscription.</p>
+<h2 id="step-by-step">Step-By-Step</h2>
+<p>The <em>Step-By-Step</em> section is exactly what it says on the label: a step-by-step guide to deploying the PowerShell Private Gallery.
+This section will take you from having the prerequisites in place through deployment to operational validation and package uploading/downloading.</p>
+<h2 id="concepts">Concepts</h2>
+<p>During the <em>Step-By-Step</em> process you'll occasionally be pointed to a link over in the <em>Concepts</em> section.
+These documents are explanations of terminology, dives into theory, or just tangents on topics that don't directly correlate to getting the private gallery deployed but are still useful to know.</p>
+<h2 id="this-repository">This Repository</h2>
+<p>This repository and the project are living things - expect to see the topics and guides updated and fixed over time.</p>
+<p>Speaking of errors and corrections, I immediately claim responsibility for every single error or problem you find here.
+<em>Please</em> let me know when you come across spelling or grammer errors, code errors, inconsistencies, or other problems with the documentation or the configurations/templates.</p>
+<p>If you have ideas for improving the project, templates, configurations, scripts, documentation, or anything else, file an issue or launch a pull request! Help is <em>definitely</em> welcome on this!</p>
+<p><a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/issues/new"><button class="btn btn-primary" type="submit">Report Issue</button></a>
+<a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/issues"><button class="btn btn-primary" type="submit">Active Issues</button></a></p>
+            
+                
+                    <div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+
+var disqus_config = function () {
+this.page.url = "None"; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = "About"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//psprivategallerywalkthrough.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+                
+            
+        </div>
+        
+    </div>
+
+    <footer class="col-md-12 text-center">
+        <hr>
+        
+            
+            <p><a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/tree/master/docs/index.md" class="icon icon-github"> Edit this page on GitHub</a></p>
+            
+        
+        <p>
+        <small>The PSPrivateGalleryWalkthrough project is licensed under the <a href='https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/blob/master/LICENSE.md'>MIT license</a><br></small>
+        
+        <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p></small>
+    </footer>
+
+    <script src="./js/jquery-1.10.2.min.js"></script>
+    <script src="./js/bootstrap-3.0.3.min.js"></script>
+    <script src="./js/tags.js"></script>
+    <script src="./js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>
+    var base_url = '.';
+    </script>
+    <script data-main="./mkdocs/js/search.js" src="./mkdocs/js/require.js"></script>
+    <script src="./js/base.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        From here you can search these documents. Enter your search terms below.
+                    </p>
+                    <form role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                        </div>
+                    </form>
+                    <div id="mkdocs-search-results"></div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+</html>
+
+<!--
+MkDocs version : 0.15.3
+Build Date UTC : 2016-07-18 13:19:37.394564
+-->

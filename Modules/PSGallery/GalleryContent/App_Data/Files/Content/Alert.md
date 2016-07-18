@@ -1,1 +1,0 @@
-﻿<div class="banner-warning">This gallery is for demonstration purposes only.</div>

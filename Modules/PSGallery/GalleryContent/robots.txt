@@ -1,5 +1,0 @@
-﻿User-agent: * 
-Disallow: /packages/*/*/Contents$
-Disallow: /packages/*/*/contents$
-Disallow: /Packages/*/*/Contents$
-Disallow: /Packages/*/*/contents$
