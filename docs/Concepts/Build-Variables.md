@@ -2,6 +2,7 @@
 Tags: concept
       vsts
       build
+Comments: true
 ---
 # Build Variables
 Build variables are where most of the not-magic happens in our build process.

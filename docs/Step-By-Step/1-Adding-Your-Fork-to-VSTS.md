@@ -3,6 +3,7 @@ Tags: tutorial
       step-by-step
       vsts
       github
+Comments: true
 ---
 # Adding Your Fork to VSTS
 First, navigate to your VSTS project - it should be something like `https://youraccountname.visualstudio.com/PSPrivateGallery` if you set it up during the *Getting Started* tutorial.

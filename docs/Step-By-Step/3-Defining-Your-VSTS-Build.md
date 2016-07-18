@@ -5,6 +5,7 @@ Tags: tutorial
       github
       build
       azurerm
+Comments: true
 ---
 # Creating your Build Defintion
 Now we're finally to the interesting part - defining our build.

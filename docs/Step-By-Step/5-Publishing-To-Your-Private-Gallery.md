@@ -1,3 +1,10 @@
+---
+Tags: tutorial
+      step-by-step
+      packagemanagement
+      post-deploy
+Comments: true
+---
 # Publishing To Your Private Gallery
 The final step in using your private gallery is to be able to publish your own modules to your private gallery.
 
