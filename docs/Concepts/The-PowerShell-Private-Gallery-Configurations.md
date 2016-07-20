@@ -1,7 +1,8 @@
 ---
-Tags: concept
-      PowerShell
-      DSC
+Tags:     concept
+          PowerShell
+          DSC
+Comments: true
 ---
 # Private Gallery Configurations
 For this walkthrough we've largely been leveraging the [PSPrivateGallery Project's](https://github.com/PowerShell/PSPrivateGallery) DSC configuration scripts with some minor edits.

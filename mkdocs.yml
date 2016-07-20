@@ -1,4 +1,5 @@
 site_name: PS Private Gallery Walkthrough
+site_url: https://michaeltlombardi.github.io/PSPrivateGalleryWalkthrough
 site_author: Mike Lombardi
 theme: psinder
 site_description: "A walkthrough of deploying and configuring a PowerShell Private Gallery to Azure via ARM Templates, DSC Configurations, and Visual Studio Team Services Build."
@@ -20,3 +21,5 @@ pages:
 
 extra:
     version: 0.3.0
+    disqus: psprivategallerywalkthrough
+    nowrap: true

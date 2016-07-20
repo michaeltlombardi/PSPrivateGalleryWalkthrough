@@ -1,8 +1,9 @@
 ---
-Tags: tutorial
-      step-by-step
-      vsts
-      azure
+Tags:     tutorial
+          step-by-step
+          vsts
+          azure
+Comments: true
 ---
 # Adding Azure to VSTS
 
