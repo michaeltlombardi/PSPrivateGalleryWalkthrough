@@ -23,8 +23,8 @@ Configuration PSPrivateGallery
     {
         # Obtain credential for Gallery setup operations
         $GalleryCredential = (Import-Clixml $Node.GalleryAdminCredFile)
-              
-        # Setup and Configure Web Server      
+
+        # Setup and Configure Web Server
         PSGalleryWebServer GalleryWebServer
         {
             UrlRewritePackagePath = $Node.UrlRewritePackagePath
@@ -34,8 +34,8 @@ Configuration PSPrivateGallery
             WebsitePath           = $Node.WebsitePath
             WebsitePort           = $Node.WebsitePort
             AppPoolName           = $Node.AppPoolName
-        }        
-        
+        }
+
         # Setup and Configure SQL Express
         PSGalleryDataBase GalleryDataBase
         {
@@ -44,7 +44,7 @@ Configuration PSPrivateGallery
             SqlInstanceName          = $Node.SqlInstanceName
             SqlDatabaseName          = $Node.SqlDatabaseName
         }
-        
+
         # Migrate entity framework schema to SQL DataBase
         # This is agnostic to the type of SQL install - SQL Express/Full SQL
         # Hence a separate resource
@@ -54,9 +54,9 @@ Configuration PSPrivateGallery
             DatabaseName         = $Node.SqlDatabaseName
             PsDscRunAsCredential = $GalleryCredential
             DependsOn            = '[PSGalleryDataBase]GalleryDataBase'
-        }        
+        }
 
-        # Make the connection between Gallery Web Server and Database instance        
+        # Make the connection between Gallery Web Server and Database instance
         xWebConnectionString SQLConnection
         {
             Ensure           = 'Present'
@@ -64,7 +64,7 @@ Configuration PSPrivateGallery
             WebSite          = $Node.WebsiteName
             ConnectionString = "Server=(LocalDB)\$($Node.SqlInstanceName);Initial Catalog=$($Node.SqlDatabaseName);Integrated Security=True"
             DependsOn        = '[PSGalleryWebServer]GalleryWebServer','[PSGalleryDataBaseMigration]GalleryDataBaseMigration'
-        }                
+        }
     }
 }
 

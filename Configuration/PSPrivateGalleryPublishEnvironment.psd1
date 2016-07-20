@@ -4,10 +4,10 @@
             NodeName                    = 'localhost'
             Role                        = 'Gallery'
             PsDscAllowPlainTextPassword = $true
-                                                    
+
             GalleryAdminCredFile        = 'C:\PSPG\Configuration\GalleryAdminCredFile.clixml'
             GalleryUserCredFile         = 'C:\PSPG\Configuration\GalleryUserCredFile.clixml'
-                        
+
             SQLInstance                 = '(LocalDb)\PSPrivateGallery'
             DatabaseName                = 'PSPrivateGallery'
 
@@ -19,7 +19,7 @@
 
             SourceGalleryName          = 'PSGallery'
             SourceGalleryLocation      = 'https://www.powershellgallery.com'
-            
+
             Modules                     = @(
                                             @{
                                                 ModuleName     = 'Pester'
@@ -33,23 +33,23 @@
                                                 ModuleName     = 'PSScriptAnalyzer'
                                                 MinimumVersion = '1.6'
                                             }
-                                            @{ 
+                                            @{
                                                 ModuleName     = 'posh-git'
                                                 MinimumVersion = '0.6'
                                             }
-                                            @{ 
+                                            @{
                                                 ModuleName     = 'psake'
                                                 MinimumVersion = '4.6'
                                             }
-                                            @{ 
+                                            @{
                                                 ModuleName     = 'platyPS'
                                                 MinimumVersion = '0.5'
                                             }
-                                            @{ 
+                                            @{
                                                 ModuleName = 'PSReadline'
                                                 MinimumVersion = '1.2'
                                             }
                                         )
-        }                               
+        }
     )
 }
