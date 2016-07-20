@@ -193,6 +193,42 @@
     
         <li class="first-level active"><a href="#private-gallery-configurations">Private Gallery Configurations</a></li>
         
+            <li class="second-level"><a href="#execute-configurationscriptsps1">Execute-ConfigurationScripts.ps1</a></li>
+            
+                <li class="third-level"><a href="#parameters">Parameters</a></li>
+            
+                <li class="third-level"><a href="#generate-user-and-admin-credentials">Generate User and Admin Credentials</a></li>
+            
+                <li class="third-level"><a href="#modify-configuration-data-files">Modify Configuration Data Files</a></li>
+            
+                <li class="third-level"><a href="#execute-the-configurations">Execute the Configurations</a></li>
+            
+        
+            <li class="second-level"><a href="#psprivategalleryenvironmentpsd1">PSPrivateGalleryEnvironment.psd1</a></li>
+            
+        
+            <li class="second-level"><a href="#psprivategalleryps1">PSPrivateGallery.ps1</a></li>
+            
+                <li class="third-level"><a href="#local-configuration-manager">Local Configuration Manager</a></li>
+            
+                <li class="third-level"><a href="#psprivate-gallery">PSPrivate Gallery</a></li>
+            
+                <li class="third-level"><a href="#executing-the-configurations">Executing the Configurations</a></li>
+            
+        
+            <li class="second-level"><a href="#psprivategallerypublishenvironmentpsd1">PSPrivateGalleryPublishEnvironment.psd1</a></li>
+            
+        
+            <li class="second-level"><a href="#psprivategallerypublishps1">PSPrivateGalleryPublish.ps1</a></li>
+            
+                <li class="third-level"><a href="#psprivategallerypublish">PSPrivateGalleryPublish</a></li>
+            
+                <li class="third-level"><a href="#executing-the-configuration">Executing the Configuration</a></li>
+            
+        
+            <li class="second-level"><a href="#conclusion">Conclusion</a></li>
+            
+        
     
     </ul>
 </div>
@@ -201,6 +237,354 @@
             
 
 <h1 id="private-gallery-configurations">Private Gallery Configurations</h1>
+<p>For this walkthrough we've largely been leveraging the <a href="https://github.com/PowerShell/PSPrivateGallery">PSPrivateGallery Project's</a> DSC configuration scripts with some minor edits.</p>
+<p>For the rest of this article we're going to break down the configuration pieces resource by resource.
+This article assumes you're familiar with <a href="">Desired State Configuration</a> itself and have some familiarity with the syntax.</p>
+<p>But before we dive into the configurations we need to talk about the script that calls them.</p>
+<h2 id="execute-configurationscriptsps1">Execute-ConfigurationScripts.ps1</h2>
+<p>The execution script, <code>Execute-ConfigurationScripts.ps1</code>, is what the VSTS build uses to modify and run the DSC Configurations below.</p>
+<h3 id="parameters">Parameters</h3>
+<p>It has several parameters:</p>
+<ul>
+<li><strong>AdminPass:</strong> The password that will be used for the PowerShell Private Gallery's admin account (named 'GalleryAdmin' by default).</li>
+<li><strong>UserPass:</strong> The password that will be used for a user account for the PowerShell Private Gallery (named 'GalleryUser' by default).</li>
+<li><strong>ApiKey:</strong> An API key is guid used when you want to publish modules to the PowerShell Private Gallery - if you don't specify one, a random guid will be assigned.</li>
+<li><strong>EmailAddress:</strong> The email address for the admin account.</li>
+<li><strong>PrivateGalleryName:</strong> The name of the PowerShell Private gallery - this is the name you'll use when registering the private repository.</li>
+</ul>
+<h3 id="generate-user-and-admin-credentials">Generate User and Admin Credentials</h3>
+<p>First, the execution script moves it's current location to the Configuration folder - this is to reduce the length of the paths in the code below.
+Then the execution script creates a PowerShell credential and exports it as XML.
+This allows the configurations to use the credentials when setting up the user accounts.</p>
+<p>This step <em>must</em> be completed on the box by the VM admin account - these credentials can <em>only</em> be read by the same account that creates them.</p>
+<pre><code class="powershell">Push-Location $PSScriptRoot
+New-Object System.Management.Automation.PSCredential ('GalleryAdmin',(ConvertTo-SecureString $AdminPass -AsPlainText -Force)) | Export-Clixml -Path .\GalleryAdminCredFile.clixml
+New-Object System.Management.Automation.PSCredential ('GalleryUser',(ConvertTo-SecureString $UserPass -AsPlainText -Force)) | Export-Clixml -Path .\GalleryUserCredFile.clixml
+</code></pre>
+
+<h3 id="modify-configuration-data-files">Modify Configuration Data Files</h3>
+<p>The next prerequisite to applying the configurations is to overwrite the values in the data files with the variables we pulled in as parameters.
+For the first data file (used in <code>PSPrivateGallery.ps1</code>) we just replace the default Private Gallery name ('PSPrivateGallery') with the value of the <code>PrivateGalleryName</code> parameter.</p>
+<pre><code class="powershell">$UpdatedGalleryEnvironment = Get-Content .\PSPrivateGalleryEnvironment.psd1 | ForEach-Object {
+    $_.Replace('PSPrivateGallery',$PrivateGalleryName)
+}
+$UpdatedGalleryEnvironment | Out-File .\PSPrivateGalleryEnvironment.psd1
+</code></pre>
+
+<p>For the second data file, <code>PSPrivateGalleryPublishEnvironment.psd1</code>, we replace the default Private Gallery name <em>as well as</em> the default emailaddress and placeholder text for the API key.</p>
+<pre><code class="powershell">$UpdatedGalleryPublishEnvironment = Get-Content .\PSPrivateGalleryPublishEnvironment.psd1 | ForEach-Object {
+    $Processing = $_.Replace('PSPrivateGallery',$PrivateGalleryName)
+    $Processing = $Processing.Replace('First.Last@Domain.com',$EmailAddress)
+    $Processing.Replace('ApiKeyGuid',$ApiKey)
+}
+$UpdatedGalleryPublishEnvironment | Out-File .\PSPrivateGalleryPublishEnvironment.psd1
+</code></pre>
+
+<h3 id="execute-the-configurations">Execute the Configurations</h3>
+<p>Finally, we execute both of the configurations.
+First we execute <code>PSPrivateGallery.ps1</code> - this installs the software and manages the prerequisites for setting up the private gallery.
+Then we execute <code>PSPrivateGalleryPublish.ps1</code> - this manages the configuration of the gallery and ensures the actual service.
+Finally, we return the prompt to it's original path via <code>Pop-Location</code>.</p>
+<pre><code class="powershell">&amp; .\PSPrivateGallery.ps1
+&amp; .\PSprivateGalleryPublish.ps1
+Pop-Location
+</code></pre>
+
+<h2 id="psprivategalleryenvironmentpsd1">PSPrivateGalleryEnvironment.psd1</h2>
+<p>This is the data file that <code>PSPrivateGallery.ps1</code> will read for the configuration of the nodes, so it's important that we discuss it here before we move onto the configuration.</p>
+<p>The environment data file is structured such that you can add additional nodes if you want to - it's setup up to be able to handle multiple nodes though only one is specified.</p>
+<p>We set the name of the node to localhost because the configuration is running locally.
+If we were running these configurations from Azure Automation, we would specify the computername of the VM instead.</p>
+<p>We set the role to web server (because the private gallery is one!) and we allow DSC to store the passwords of the gallery admin and user accounts in plaintext.</p>
+<p>This is <em>not</em> best practice and we're going to modify this project to fix this - see issue <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/issues/11">#11</a>.</p>
+<pre><code class="powershell">NodeName                    = 'localhost'
+Role                        = 'WebServer'
+PsDscAllowPlainTextPassword = $true
+</code></pre>
+
+<p>The next section of the data files is to set the installer paths for the URL rewriter package and SQL Server Express.
+These software packages are required for the private gallery.</p>
+<pre><code class="powershell">UrlRewritePackagePath       = 'C:\PSPG\Installers\rewrite_amd64.msi'
+SqlExpressPackagePath       = 'C:\PSPG\Installers\SqlLocalDB_x64.msi'
+</code></pre>
+
+<p>Then we specify the paths to the private gallery admin credential file and the path to where the packages will be stored for the private gallery.</p>
+<pre><code class="powershell">GalleryAdminCredFile        = 'C:\PSPG\Configuration\GalleryAdminCredFile.clixml'
+GallerySourcePath           = 'C:\Program Files\WindowsPowerShell\Modules\PSGallery\GalleryContent\'
+</code></pre>
+
+<p>The next part of the environment datafile holds the configuration variables for the private gallery website.
+This configuration configures the gallery to be the default website of the server and sets the website's folder path to the name of your private gallery (remember, the execution script overwrites all instances of 'PSPrivateGallery' in this file with the name you specified for the private gallery). For example, if you specified the name of the private gallery to be 'stlpsug', the website path would be set to <code>C:\stlpsug</code>.</p>
+<p>It also sets the application pool to the default, and sets the port to 80 for standard HTTP.</p>
+<pre><code class="powershell">WebsiteName                 = 'Default Web Site'
+WebsitePath                 = 'C:\PSPrivateGallery'
+AppPoolName                 = 'DefaultAppPool'
+WebsitePort                 = 80
+</code></pre>
+
+<p>Finally, the data file contains the configuration information for SQL.
+We set both the instance and database names to the name of private gallery.</p>
+<p><strong>Reminder:</strong> All instances of 'PSPrivateGallery' in this file are rewritten by the execution script to whatever you named the private gallery!</p>
+<p><code>SqlInstanceName             = 'PSPrivateGallery'
+SqlDatabaseName             = 'PSPrivateGallery'</code></p>
+<h2 id="psprivategalleryps1">PSPrivateGallery.ps1</h2>
+<h3 id="local-configuration-manager">Local Configuration Manager</h3>
+<p>The first configuration block of <code>PSPrivateGallery.ps1</code> deals with the <a href="">local coniguration manager</a>.
+It ensures that the node will apply configurations exactly once, reboot if necessary, and continue to apply the configurations after reboot.</p>
+<pre><code class="powershell">[DSCLocalConfigurationManager()]
+configuration LCMConfig
+{
+    Node localhost
+    {
+        Settings
+        {
+            RebootNodeIfNeeded = $true
+            ConfigurationMode = 'ApplyOnly'
+            ActionAfterReboot = 'ContinueConfiguration'
+        }
+    }
+}
+</code></pre>
+
+<h3 id="psprivate-gallery">PSPrivate Gallery</h3>
+<p>Installing the PowerShell Gallery requires DSC resources for both the gallery itself and for the IIS web server it will be running inside.</p>
+<pre><code class="powershell">Import-DscResource -Module PSGallery
+Import-DscResource -Module xWebAdministration
+</code></pre>
+
+<p>The configuration of the Private Gallery is <em>only</em> applied to those nodes in <code>PSPrivateGalleryEnvironment.psd1</code> which have the role 'WebServer'.</p>
+<pre><code class="powershell">Node $AllNodes.Where{$_.Role -eq 'WebServer'}.Nodename
+</code></pre>
+
+<p>In the <a href="#execute-configurationscriptsps1">Execution Script</a> we set the admin credentials - now we're going to read those in from the local disk and use those credentials for setting up the requisite software and services.</p>
+<pre><code class="powershell"># Obtain credential for Gallery setup operations
+$GalleryCredential = (Import-Clixml $Node.GalleryAdminCredFile)
+</code></pre>
+
+<p>Next up we're going to configure the web server for the PowerShell private gallery.
+Notice that almost <em>all</em> of the information here was set in the <code>PSPrivateGalleryEnvironment.psd1</code> - the path to where the URL rewrite package is located, the admin credential for the app pool, the path to where the PowerShell packages will be stored, the name of the website and the path to it, the port the website will be set on, and the name of the app pool.</p>
+<pre><code class="powershell">PSGalleryWebServer GalleryWebServer
+{
+      UrlRewritePackagePath = $Node.UrlRewritePackagePath
+      AppPoolCredential     = $GalleryCredential
+      GallerySourcePath     = $Node.GallerySourcePath
+      WebSiteName           = $Node.WebsiteName
+      WebsitePath           = $Node.WebsitePath
+      WebsitePort           = $Node.WebsitePort
+      AppPoolName           = $Node.AppPoolName
+}
+</code></pre>
+
+<p>The database for the gallery also gets its settings defined back in the environment datafile - the path to the installer, the credential for SQL (notice it's the same as the overall PSGallery admin), and the name of the instance and database - in both cases, this is the same name as the private gallery.</p>
+<pre><code class="powershell">PSGalleryDataBase GalleryDataBase
+{
+      SqlExpressPackagePath    = $Node.SqlExpressPackagePath
+      DatabaseAdminCredential  = $GalleryCredential
+      SqlInstanceName          = $Node.SqlInstanceName
+      SqlDatabaseName          = $Node.SqlDatabaseName
+}
+</code></pre>
+
+<p>In an unsurprising turn of events, the database migration resource <em>also</em> gets its settings from the datafile - the private gallery name for the instance and database, the admin credential, and a setting that ensures this runs after the GalleryDataBase resource above. </p>
+<pre><code class="powershell"># Migrate entity framework schema to SQL DataBase
+# This is agnostic to the type of SQL install - SQL Express/Full SQL
+# Hence a separate resource
+PSGalleryDatabaseMigration GalleryDataBaseMigration
+{
+      DatabaseInstanceName = $Node.SqlInstanceName
+      DatabaseName         = $Node.SqlDatabaseName
+      PsDscRunAsCredential = $GalleryCredential
+      DependsOn            = '[PSGalleryDataBase]GalleryDataBase'
+}
+</code></pre>
+
+<p>Finally, the configuration requires a connection string to be setup.
+We ensure that the connection string exists, name it, attach it to the gallery website, and generate the connection string.
+Lastly, the connection string depends on both the migration and web server resources.</p>
+<pre><code class="powershell">xWebConnectionString SQLConnection
+{
+      Ensure           = 'Present'
+      Name             = 'Gallery.SqlServer'
+      WebSite          = $Node.WebsiteName
+      ConnectionString = &quot;Server=(LocalDB)\$($Node.SqlInstanceName);Initial Catalog=$($Node.SqlDatabaseName);Integrated Security=True&quot;
+      DependsOn        = '[PSGalleryWebServer]GalleryWebServer','[PSGalleryDataBaseMigration]GalleryDataBaseMigration'
+}
+</code></pre>
+
+<h3 id="executing-the-configurations">Executing the Configurations</h3>
+<p>First, the script builds the configuration for the LCM and then executes it.</p>
+<pre><code class="powershell">LCMConfig
+Set-DscLocalConfigurationManager -Path .\LCMConfig -Force -Verbose -ComputerName localhost
+</code></pre>
+
+<p>Then it will build the configuration for the private gallery and execute it.</p>
+<pre><code class="powershell">PSPrivateGallery -ConfigurationData .\PSPrivateGalleryEnvironment.psd1
+Start-DscConfiguration -Path .\PSPrivateGallery -Wait -Force -Verbose
+</code></pre>
+
+<h2 id="psprivategallerypublishenvironmentpsd1">PSPrivateGalleryPublishEnvironment.psd1</h2>
+<p>Again, we need to explore the environment datafile before the configuration script itself will make sense.
+This data file also describes a single node.</p>
+<p>Again, the nodename is set to localhost.
+This time, however, the role is set to Gallery and we again specify that plaintext passwords should be allowed.</p>
+<pre><code class="powershell">NodeName                    = 'localhost'
+Role                        = 'Gallery'
+PsDscAllowPlainTextPassword = $true
+</code></pre>
+
+<p>Again, we set the paths for the credential files.</p>
+<pre><code class="powershell">GalleryAdminCredFile        = 'C:\PSPG\Configuration\GalleryAdminCredFile.clixml'
+GalleryUserCredFile         = 'C:\PSPG\Configuration\GalleryUserCredFile.clixml'
+</code></pre>
+
+<p>We set the SQL instance and database names again - and, again, they're going to be equal to the name of the private gallery.</p>
+<pre><code class="powershell">SQLInstance                 = '(LocalDb)\PSPrivateGallery'
+DatabaseName                = 'PSPrivateGallery'
+</code></pre>
+
+<p>This time we also set the email address for the admin account and specify the API key that will be used to publish modules to the gallery.</p>
+<pre><code class="powershell">EmailAddress                = 'First.Last@Domain.com'
+ApiKey                      = 'Guid'
+</code></pre>
+
+<p>We also set the name and location of the private gallery - PSPrivateGallery will be replaced with the name you specified in <code>Execute-ConfigurationScripts.ps1</code>.
+The website will run on the localhost on port 80.</p>
+<pre><code class="powershell">PrivateGalleryName          = 'PSPrivateGallery'
+PrivateGalleryLocation      = 'http://localhost:80'
+</code></pre>
+
+<p>Then we set the information for our source gallery - in this case, we're leveraging the public gallery for our source gallery.</p>
+<pre><code class="powershell">SourceGalleryName          = 'PSGallery'
+SourceGalleryLocation      = 'https://www.powershellgallery.com'
+</code></pre>
+
+<p>Finally, we specify what modules should be published to the private gallery from the source gallery.
+In our case, we're only specifying a minimum version because we always want the gallery to pull down the latest one.</p>
+<pre><code class="powershell">Modules = @(
+                @{
+                    ModuleName     = 'Pester'
+                    MinimumVersion = '3.4'
+                }
+                @{
+                    ModuleName     = 'PSDeploy'
+                    MinimumVersion = '0.1.8'
+                }
+                @{
+                    ModuleName     = 'PSScriptAnalyzer'
+                    MinimumVersion = '1.6'
+                }
+                @{
+                    ModuleName     = 'posh-git'
+                    MinimumVersion = '0.6'
+                }
+                @{
+                    ModuleName     = 'psake'
+                    MinimumVersion = '4.6'
+                }
+                @{
+                    ModuleName     = 'platyPS'
+                    MinimumVersion = '0.5'
+                }
+                @{
+                    ModuleName = 'PSReadline'
+                    MinimumVersion = '1.2'
+                }
+            )
+}
+</code></pre>
+
+<h2 id="psprivategallerypublishps1">PSPrivateGalleryPublish.ps1</h2>
+<p>This script manages the configuration of the gallery itself now that the prerequisites components are in place.</p>
+<h3 id="psprivategallerypublish">PSPrivateGalleryPublish</h3>
+<p>Before we configure the private gallery node(s) we import the required DSC resources - PSGallery and the resource for Package Management providers.</p>
+<pre><code class="powershell">Import-DscResource -ModuleName PSGallery
+Import-DscResource -ModuleName PackageManagementProviderResource
+</code></pre>
+
+<p>Then we retrieve the stored credentials again.</p>
+<pre><code class="powershell">$GalleryAppPoolCredential = (Import-Clixml $Node.GalleryAdminCredFile)
+$GalleryUserCredential    = (Import-Clixml $Node.GalleryUserCredFile)
+</code></pre>
+
+<p>We then define the source gallery for our private gallery - the name, provider, where it's located, the credential to add it under (the admin credential), that it should be installed and trusted.</p>
+<pre><code class="powershell">PackageManagementSource SourceGallery
+{
+    Name                 = $Node.SourceGalleryName
+    ProviderName         = 'PowerShellGet'
+    SourceUri            = $Node.SourceGalleryLocation
+    PsDscRunAsCredential = $GalleryAppPoolCredential
+    Ensure               = 'Present'
+    InstallationPolicy   = 'Trusted'
+}
+</code></pre>
+
+<p>We then do the same thing for the private gallery itself:</p>
+<pre><code class="powershell">PackageManagementSource PrivateGallery
+{
+    Name                 = $Node.PrivateGalleryName
+    ProviderName         = 'PowerShellGet'
+    SourceUri            = $Node.PrivateGalleryLocation
+    PsDscRunAsCredential = $GalleryAppPoolCredential
+    Ensure               = 'Present'
+    InstallationPolicy   = 'Trusted'
+}
+</code></pre>
+
+<p>The Gallery user needs to be configured as well - note that if you want to specify multiple users, that can be done too.
+Setting the user requires specifying the database in which the user will be stored, that the user should exist, the credential of the user, the credential of the account that can add the user, the user's email address, and the user's API key.</p>
+<pre><code class="powershell">PSGalleryUser PrivateGalleryUser
+{
+    DatabaseInstance      = $Node.SQLInstance
+    DatabaseName          = $Node.DatabaseName
+    Ensure                =  'Present'
+    UserCredential        = $GalleryUserCredential
+    PsDscRunAsCredential  = $GalleryAppPoolCredential
+    EmailAddress          = $Node.EmailAddress
+    ApiKey                = $Node.ApiKey
+}
+</code></pre>
+
+<p>Finally for the configuration we need to deal with the modules.
+First we make sure that the modules are installed and configured, specifying both the source and private gallery names, the credential of the account which will publish these initial modules, and the API key for publishing the modules.</p>
+<p>The next portion is more complicated - it reads the Modules section of the environmental data file above (which was an array of hash tables) and adds a configuration item for each module listed.
+Every module specification requires the modules name and one of the following: RequiredVersion, MinimumVersion, and MaximumVersion.
+These modules will be loaded into the private gallery.</p>
+<p>Finally, this resource depends on the source gallery, private gallery, and user being set up.</p>
+<pre><code class="powershell">PSGalleryModule PrivateGalleryModule
+{
+    Ensure                      = 'Present'
+
+    SourceGalleryName           = $Node.SourceGalleryName
+    PrivateGalleryName          = $Node.PrivateGalleryName
+
+    PsDscRunAsCredential        = $GalleryAppPoolCredential
+
+    ApiKey                      = $Node.ApiKey
+
+    Modules                     = $Node.Modules | % {
+                                                ModuleSpecification
+                                                {
+                                                    Name = $_.ModuleName
+                                                    RequiredVersion = $_.RequiredVersion
+                                                    MinimumVersion = $_.MinimumVersion
+                                                    MaximumVersion = $_.MaximumVersion
+                                                }
+                                    }
+
+    DependsOn                   = '[PackageManagementSource]SourceGallery','[PackageManagementSource]PrivateGallery','[PSGalleryUser]PrivateGalleryUser'
+}
+</code></pre>
+
+<h3 id="executing-the-configuration">Executing the Configuration</h3>
+<p>And, very finally, we execute the configuration.
+This will read in the datafile and build the configuration from the code above and then run it.</p>
+<pre><code class="powershell">PSPrivateGalleryPublish -ConfigurationData .\PSPrivateGalleryPublishEnvironment.psd1
+Start-DscConfiguration -Path .\PSPrivateGalleryPublish -Wait -Force -Verbose
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>This page was long and complex but we've now covered the execution script, the environmental datafiles, and the configurations themselves.</p>
+<p>If you have any questions, comments or concerns - if you find a mistake in this document or if something is not clear to you, <em>please</em> file an <a href="https://github.com/michaeltlombardi/PSPrivateGalleryWalkthrough/issues/new">issue</a> and it will be addressed.</p>
             
                 
                     <div id="disqus_thread"></div>
