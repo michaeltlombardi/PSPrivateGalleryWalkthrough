@@ -6,7 +6,7 @@ Configuration PSPrivateGalleryPublish
     Import-DscResource -ModuleName PackageManagementProviderResource
 
     Node $AllNodes.Where{$_.Role -eq 'Gallery'}.Nodename
-    {    
+    {
         # Obtain credential for Gallery operations
         $GalleryAppPoolCredential = (Import-Clixml $Node.GalleryAdminCredFile)
         $GalleryUserCredential    = (Import-Clixml $Node.GalleryUserCredFile)
@@ -32,7 +32,7 @@ Configuration PSPrivateGalleryPublish
             Ensure               = 'Present'
             InstallationPolicy   = 'Trusted'
         }
-        
+
         # Local Gallery User
         PSGalleryUser PrivateGalleryUser
         {
@@ -44,15 +44,15 @@ Configuration PSPrivateGalleryPublish
             EmailAddress          = $Node.EmailAddress
             ApiKey                = $Node.ApiKey
         }
-        
+
         # Publish specified modules from Source Gallery to Destinations Gallerys
         PSGalleryModule PrivateGalleryModule
-        {   
+        {
             Ensure                      = 'Present'
 
-            SourceGalleryName           = $Node.SourceGalleryName                       
+            SourceGalleryName           = $Node.SourceGalleryName
             PrivateGalleryName          = $Node.PrivateGalleryName
-                        
+
             PsDscRunAsCredential        = $GalleryAppPoolCredential
 
             ApiKey                      = $Node.ApiKey
@@ -73,5 +73,4 @@ Configuration PSPrivateGalleryPublish
 }
 
 PSPrivateGalleryPublish -ConfigurationData .\PSPrivateGalleryPublishEnvironment.psd1
-
 Start-DscConfiguration -Path .\PSPrivateGalleryPublish -Wait -Force -Verbose

@@ -1,3 +1,6 @@
+---
+Comments: true
+---
 # About
 This site (and the repository it's generated from) exists to help demonstrate and walk you through deploying a PowerShell Private Gallery to Azure via Azure Resource Manager templates, PowerShell Desired State Configurations, and some version controlled scripts all executed via Visual Studio Services' builds.
 
