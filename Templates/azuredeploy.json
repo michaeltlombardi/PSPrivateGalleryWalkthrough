@@ -42,7 +42,7 @@
     },
     "imageSKU": {
       "type": "string",
-      "defaultValue": "2016-Technical-Preview-with-Containers",
+      "defaultValue": "2016-Datacenter-with-Containers",
       "metadata": {
         "description": "Image SKU"
       }
