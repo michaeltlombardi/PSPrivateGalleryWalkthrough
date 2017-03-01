@@ -164,7 +164,7 @@
             "winRM": {
               "listeners": [
                 {
-                  "protocol": "https"
+                  "protocol": "http"
                 }
               ]
             },
